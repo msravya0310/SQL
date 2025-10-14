@@ -719,3 +719,85 @@
 --      NVL(CUST_CREDIT_LIMIT,(SELECT AVG(CUST_CREDIT_LIMIT) FROM SH.CUSTOMERS))AS CREDIT_LIMIT_FILLED
 -- FROM SH.CUSTOMERS
 -- ORDER BY CREDIT_LIMIT_FILLED DESC;
+
+-- E. String Functions (10 Questions)
+--1.Show customers whose first and last name start with the same letter.
+-- SELECT
+--      CUST_ID,
+--      CUST_FIRST_NAME,
+--      CUST_LAST_NAME
+-- FROM SH.CUSTOMERS
+-- WHERE UPPER(SUBSTR(CUST_FIRST_NAME, 1, 1)) = UPPER(SUBSTR(CUST_LAST_NAME, 1, 1));
+
+--2.Display full names in “Last, First” format.
+-- SELECT
+--     CUST_ID,
+--     CUST_LAST_NAME,
+--     CUST_FIRST_NAME,
+--     CUST_LAST_NAME || ', ' || CUST_FIRST_NAME AS FULL_NAME
+-- FROM SH.CUSTOMERS
+-- WHERE UPPER(SUBSTR(CUST_FIRST_NAME, 1, 1)) = UPPER(SUBSTR(CUST_LAST_NAME, 1, 1));
+
+-- --3.Find customers whose last name ends with 'SON'.
+-- SELECT
+--      CUST_ID,
+--      CUST_LAST_NAME
+-- FROM SH.CUSTOMERS
+-- WHERE UPPER(SUBSTR(CUST_LAST_NAME,-3)) = 'SON'
+
+--4.Display length of each customer’s full name.
+-- SELECT
+--     CUST_ID,
+--     CUST_FIRST_NAME,
+--     CUST_LAST_NAME,
+--     CUST_FIRST_NAME || ' ' || CUST_LAST_NAME AS FULL_NAME
+-- FROM SH.CUSTOMERS
+-- WHERE LENGTH(CUST_FIRST_NAME || CUST_LAST_NAME) > 10;
+
+
+--5.Replace vowels in customer names with '*'.
+-- SELECT CUST_ID,
+--        CUST_FIRST_NAME,
+--        REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+--          CUST_FIRST_NAME,
+--          'A','*'),
+--          'E','*'),
+--          'I','*'),
+--          'O','*'),
+--          'U','*') AS MASKED_FIRST_NAME
+-- FROM SH.CUSTOMERS;
+
+--6.Show customers whose income level description contains ‘90’.
+SELECT CUST_ID,
+       CUST_FIRST_NAME,
+       CUST_LAST_NAME,
+       CUST_INCOME_LEVEL
+FROM SH.CUSTOMERS
+WHERE INSTR(CUST_INCOME_LEVEL, '90') > 0;
+
+--7.Display initials of each customer (first letters of first and last name).
+-- SELECT CUST_ID,
+--        CUST_FIRST_NAME,
+--        CUST_LAST_NAME,
+--        SUBSTR(CUST_FIRST_NAME, 1, 1) || SUBSTR(CUST_LAST_NAME, 1, 1) AS INITIALS
+-- FROM SH.CUSTOMERS;
+--8.Concatenate city and state to create full address.
+-- SELECT
+--      CUST_CITY,
+--      CUST_STATE_PROVINCE,
+--      CUST_CITY || ',' || CUST_STATE_PROVINCE AS FULL_ADDRESS
+-- FROM SH.CUSTOMERS
+
+--9.Extract numeric value from income level using REGEXP_SUBSTR.
+-- SELECT
+--     CUST_INCOME_LEVEL,
+--     REGEXP_SUBSTR(CUST_INCOME_LEVEL, '[0-9]+') AS INCOME_NUMERIC
+-- FROM SH.CUSTOMERS;
+
+
+--10.Count how many customers have a 3-letter first name.
+-- SELECT 
+--     CUST_FIRST_NAME,
+--     CUST_LAST_NAME
+-- FROM SH.CUSTOMERS
+-- WHERE LENGTH(CUST_FIRST_NAME) = 3;
